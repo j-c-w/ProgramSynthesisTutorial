@@ -1,0 +1,20 @@
+def fill_holes(expr: Node, max_depth: int) -> Iterator[Node]:
+    """
+    Recursively generate all expressions obtained by filling Hole() in expr
+    with all possible ASTs up to max_depth.
+    """
+    if isinstance(expr, Hole):
+        # Replace the hole with every possible subexpression
+        for replacement in all_exprs(max_depth):
+            yield replacement
+    elif isinstance(expr, BinOp):
+        # Recursively fill holes in left and right
+        for l in fill_holes_all(expr.left, max_depth):
+            for r in fill_holes_all(expr.right, max_depth):
+                yield BinOp(expr.op, l, r)
+    elif isinstance(expr, (VarX, VarY)):
+        # No holes here, yield the expr itself
+        yield expr
+    else:
+        raise TypeError(f"Unsupported node type: {type(expr)}")
+

@@ -1,0 +1,15 @@
+    if max_depth < 1:
+        return
+    # Depth 1: variables only
+    if max_depth == 1:
+        yield VarX()
+        yield VarY()
+        return
+
+    # Generate smaller subexpressions recursively
+    subexprs = [list(all_exprs(d)) for d in range(1, max_depth)]
+    for left_depth in range(1, max_depth):
+        for right_depth in range(1, max_depth):
+            for left, right in product(subexprs[left_depth - 1], subexprs[right_depth - 1]):
+                for op in ['+', '-', '*', '/']:
+                    yield BinOp(op, left, right)

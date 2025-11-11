@@ -1,0 +1,5 @@
+test_1: x + y
+test_2: x * x * x + y + y
+test_3: x * x - y * y
+test_4: x / y + y / x + y * y + x * x
+test_5: x / y + y + y - x / x
